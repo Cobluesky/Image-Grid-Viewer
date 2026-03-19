@@ -1,115 +1,101 @@
-﻿# Image Grid Viewer
+﻿```markdown
+# 🖼️ Image Grid Viewer
 
-Version: `1.2`
+![header](https://capsule-render.vercel.app/render?type=wave&color=auto&height=200&section=header&text=Image%20Grid%20Viewer&fontSize=70)
 
-대용량 이미지를 열고, 전역 그리드(Global Grid) 기준으로 셀을 탐색하며, 최대 2개의 ROI(Region of Interest)를 지정해 관심 영역만 정확하게 확인할 수 있는 데스크톱 뷰어입니다.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/PySide6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white" />
+  <img src="https://img.shields.io/badge/Pillow-10.0+-90422d?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
+</p>
 
-## 주요 기능
-- 큰 이미지 파일 열기
-- 마우스 휠 확대/축소
-- 휠 클릭 드래그 패닝
-- 전역 `Cols`, `Rows` 기준 셀 선택
-- `Cell X`, `Cell Y` 좌표 입력으로 셀 직접 조회
-- `Unselect`로 선택 해제
-- 라벨 표시 On/Off
-- 라벨 크기 및 색상 변경
-- ROI 1, ROI 2를 점 2개 클릭으로 지정
-- ROI 좌표를 `Left / Top / Right / Bottom` 값으로 직접 입력
-- 두 점 기준 Crop
-- 선택 셀 확대 보기 및 이미지 저장
+## 📝 프로젝트 소개
+**Image-Grid-Viewer**는 대용량 이미지를 열고, 전역 그리드(Global Grid)를 기반으로 특정 셀을 정밀하게 탐색 및 추출할 수 있는 데스크톱 애플리케이션입니다. 최대 2개의 ROI(Region of Interest)를 지정하여 관심 영역의 연속적인 라벨링과 개별 셀 저장을 지원합니다.
 
-## 요구 환경
-- Python `3.11+`
-- Windows 권장
+---
 
-## 설치
+## ✨ 핵심 기능 (Key Features)
+
+### 1. 전역 그리드 및 탐색
+- **전역 좌표계**: ROI가 나뉘어 있어도 번호가 끊기지 않고 이어지는 전역 `Cols`, `Rows` 시스템을 사용합니다.
+- **정밀 선택**: 마우스 클릭 또는 `Cell X, Y` 좌표 직접 입력을 통한 단일 셀 선택 기능을 제공합니다.
+- **스마트 캔버스**: 마우스 휠을 이용한 확대/축소와 휠 클릭 드래그를 통한 자유로운 패닝을 지원합니다.
+
+### 2. 영역 지정 (ROI & Crop)
+- **ROI 설정**: 두 점 클릭 또는 좌표 수치(L/T/R/B) 입력을 통해 최대 2개의 관심 영역을 설정할 수 있습니다.
+- **이미지 크롭**: 드래그가 아닌 두 점 지정 방식을 통해 정확한 영역을 잘라내어 작업할 수 있습니다.
+
+### 3. 시각화 및 출력
+- **커스텀 라벨**: 그리드 라벨의 표시 여부, 크기(50%~300%), 색상을 실시간으로 변경할 수 있습니다.
+- **확대 뷰 및 저장**: 선택된 셀은 우측 하단 패널에서 최대 800%까지 확대 확인이 가능하며, 개별 이미지 파일(PNG, JPG, BMP)로 즉시 저장할 수 있습니다.
+
+---
+
+## 🛠 기술 스택 (Tech Stack)
+
+- **Language**: Python 3.11+
+- **GUI Framework**: PySide6 (Qt for Python)
+- **Image Processing**: Pillow
+- **Executable Build**: PyInstaller
+
+---
+
+## 🚀 시작하기 (Getting Started)
+
+### 설치 방법
 ```powershell
-cd C:\codex
+# 저장소 클론
+git clone [https://github.com/Cobluesky/Image-Grid-Viewer.git](https://github.com/Cobluesky/Image-Grid-Viewer.git)
+cd Image-Grid-Viewer
+
+# 의존성 패키지 설치 (Editable 모드)
 python -m pip install -e .
 ```
 
-## 실행
+### 실행 방법
 ```powershell
-cd C:\codex
 python -m app.main
 ```
 
-## EXE 빌드
-프로젝트에 포함된 스크립트로 빌드:
-
+### 실행 파일(EXE) 빌드
+포함된 PowerShell 스크립트를 사용하여 간편하게 빌드할 수 있습니다.
 ```powershell
-cd C:\codex
 Set-ExecutionPolicy -Scope Process Bypass
 .\build_exe.ps1
 ```
 
-직접 PyInstaller로 빌드:
+---
 
-```powershell
-cd C:\codex
-python -m pip install --user pyinstaller
-if (Test-Path .\dist\ImageGridViewer.exe) { Remove-Item .\dist\ImageGridViewer.exe -Force }
-python -m PyInstaller --noconfirm --clean --onefile --windowed --name ImageGridViewer `
-  --exclude-module numpy `
-  --exclude-module numpy_distutils `
-  --exclude-module matplotlib `
-  --exclude-module tkinter `
-  --exclude-module unittest `
-  --exclude-module pytest `
-  --exclude-module PIL.ImageQt `
-  --exclude-module PIL.ImageTk `
-  --exclude-module PIL.ImageGrab `
-  .\app\main.py
+## 📂 프로젝트 구조 (Project Structure)
+```text
+app/
+  ├── core/      # 격자 계산 및 좌표 변환 로직
+  ├── models/    # AppState 및 이미지 메타데이터 관리
+  └── ui/        # 메인 윈도우, 캔버스, 확대 패널 UI
+pyproject.toml   # 프로젝트 설정 및 의존성
+build_exe.ps1    # 빌드 자동화 스크립트
 ```
 
-정상 빌드 시 실행 파일은 `C:\codex\dist\ImageGridViewer.exe`에 생성됩니다.
+---
 
-## 사용 방법
-1. `Open Image...`로 이미지를 엽니다.
-2. `Cols`, `Rows`를 설정합니다. 이 값은 ROI별 로컬 설정이 아니라 전체 이미지 기준 전역 그리드입니다.
-3. 셀을 선택하는 방법은 두 가지입니다.
-   - 좌측 이미지에서 셀을 직접 클릭
-   - `Cell X`, `Cell Y` 입력 후 `Apply Selection`
-4. 선택을 해제하려면 `Unselect`를 누릅니다.
-5. 라벨 가시성은 `Show Labels`로 켜고 끌 수 있습니다.
-6. ROI는 두 가지 방식으로 지정할 수 있습니다.
-   - `Define ROI 1`, `Define ROI 2` 클릭 후 좌상단 점과 우하단 점을 순서대로 클릭
-   - ROI 입력 영역에 `Left / Top / Right / Bottom` 값을 넣고 적용
-7. Crop도 두 점 방식으로 지정합니다.
-   - `Crop Mode` 진입
-   - 좌상단 점, 우하단 점 클릭
-   - `Apply Crop` 또는 `Cancel Crop`
-8. 우하단 확대 뷰에서 슬라이더로 배율을 조절하고, `Save`로 현재 선택 셀 이미지를 저장합니다.
-
-## 전역 그리드 예시
-ROI가 2개이고 전체 설정이 `Cols = 6`, `Rows = 2`라면, 번호는 ROI별로 끊기지 않고 전체 기준으로 이어집니다.
+## 💡 전역 그리드 시스템 예시
+ROI가 2개로 분할되어 있어도, 번호는 전체 이미지 기준의 `Cols` 설정을 따라 순차적으로 부여됩니다.
 
 ```text
 1  2  3 | 4  5  6
 7  8  9 | 10 11 12
 ```
 
-즉 `X, Y` 입력은 항상 전체 범위에서 단 하나의 셀만 가리킵니다.
+---
 
-## 조작 요약
-- 휠 스크롤: 확대/축소
-- 휠 클릭 드래그: 화면 이동
-- 좌클릭: 셀 선택, ROI 점 지정, Crop 점 지정
+## 📄 라이선스 (License)
+이 프로젝트는 **MIT License**를 따릅니다.
 
-## 프로젝트 구조
-```text
-app/
-  core/      # 격자 계산, 셀 경계 계산
-  models/    # 앱 상태 모델
-  ui/        # 메인 윈도우, 캔버스, 확대 패널
-README.md
-Requirement.MD
-pyproject.toml
-ImageGridViewer.spec
-build_exe.ps1
+---
+
+## 👤 제작자 (Contact)
+**신하늘 (Shin Ha-neul)**
+- 📧 Email: habuhamo900@gmail.com
+- 🔗 GitHub: [@Cobluesky](https://github.com/Cobluesky)
 ```
-
-## 참고
-- EXE가 실행 중이면 빌드가 실패할 수 있습니다.
-- 탐색기 미리보기, 백신, 실시간 보호가 EXE 파일을 점유하면 PyInstaller 빌드가 실패할 수 있습니다.
-- 상세 요구사항과 진행 체크는 `Requirement.MD`에 정리되어 있습니다.
