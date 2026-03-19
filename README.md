@@ -1,5 +1,13 @@
 ﻿# 🖼️ Image Grid Viewer
 
+<p align="center">
+  <a href="#-english-version">English</a> | <a href="#-한국어-버전">한국어</a>
+</p>
+
+---
+
+## 🇺🇸 English Version
+
 ![header](https://capsule-render.vercel.app/render?type=wave&color=auto&height=200&section=header&text=Image%20Grid%20Viewer&fontSize=70)
 
 <p align="center">
@@ -8,14 +16,6 @@
   <img src="https://img.shields.io/badge/Pillow-10.0+-90422d?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
 </p>
-
-<p align="center">
-  <a href="#-english-version">English</a> | <a href="#-한국어-버전">한국어</a>
-</p>
-
----
-
-## 🇺🇸 English Version
 
 ### 📝 Project Overview
 **Image-Grid-Viewer** is a desktop application designed to open high-resolution images and precisely navigate or extract specific cells based on a **Global Grid** system. It supports up to two Regions of Interest (ROI) for continuous labeling and individual cell exporting.
@@ -72,12 +72,28 @@ pyproject.toml   # Project configuration and dependencies
 build_exe.ps1    # Build automation script
 ```
 
+### 📄 License
+This project is licensed under the **MIT License**.
+
+### 👤 Author (Contact)
+**Shin Ha-neul**
+- 📧 Email: [habuhamo900@gmail.com](mailto:habuhamo900@gmail.com)
+- 🔗 GitHub: [@Cobluesky](https://github.com/Cobluesky)
+
 ---
 
 ## 🇰🇷 한국어 버전
 
-### 📝 프로젝트 소개
-**Image-Grid-Viewer**는 대용량 이미지를 열고, 전역 그리드(Global Grid)를 기반으로 특정 셀을 정밀하게 탐색 및 추출할 수 있는 데스크톱 애플리케이션입니다. 최대 2개의 ROI(Region of Interest)를 지정하여 관심 영역의 연속적인 라벨링과 개별 셀 저장을 지원합니다.
+![header](https://capsule-render.vercel.app/render?type=soft&color=auto&height=200&text=이미지%20그리드%20뷰어&fontSize=70)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-Korean-blue?style=for-the-badge&logo=language" />
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/PySide6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white" />
+</p>
+
+### 📝 프로젝트 개요
+**Image-Grid-Viewer**는 고해상도 이미지를 열고, 전역 그리드(Global Grid) 시스템을 기반으로 특정 셀을 정밀하게 탐색하거나 추출할 수 있도록 설계된 데스크톱 애플리케이션입니다. 최대 2개의 ROI(Region of Interest)를 지정하여 관심 영역의 연속적인 라벨링과 개별 셀 저장을 지원합니다.
 
 ### ✨ 핵심 기능 (Key Features)
 #### 1. 전역 그리드 및 탐색
@@ -131,25 +147,13 @@ pyproject.toml   # 프로젝트 설정 및 의존성
 build_exe.ps1    # 빌드 자동화 스크립트
 ```
 
----
+### 📄 라이선스 (License)
+이 프로젝트는 **MIT License**를 따릅니다.
 
-## 💡 Global Grid System Example
-Even if the ROI is split into two sections, the numbering follows the global `Cols` setting to ensure sequential indexing across the entire image.
-
-```text
-ROI 1          ROI 2
-1  2  3  |  4  5  6
-7  8  9  |  10 11 12
-```
-
----
-
-## 📄 License
-This project is licensed under the **MIT License**.
-
----
-
-## 👤 Author (Contact)
+### 👤 제작자 (Contact)
 **신하늘 (Shin Ha-neul)**
-- 📧 Email: [habuhamo900@gmail.com](mailto:habuhamo900@gmail.com)
+- 📧 이메일: [habuhamo900@gmail.com](mailto:habuhamo900@gmail.com)
 - 🔗 GitHub: [@Cobluesky](https://github.com/Cobluesky)
+
+---
+<p align="center">Please consider starring this repository if you found it useful! / 유용하게 사용하셨다면 ⭐️ Star를 눌러주세요!</p>
