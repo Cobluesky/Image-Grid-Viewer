@@ -1,5 +1,4 @@
-﻿```markdown
-# 🖼️ Image Grid Viewer
+﻿# 🖼️ Image Grid Viewer
 
 ![header](https://capsule-render.vercel.app/render?type=wave&color=auto&height=200&section=header&text=Image%20Grid%20Viewer&fontSize=70)
 
@@ -44,48 +43,40 @@
 ## 🚀 시작하기 (Getting Started)
 
 ### 설치 방법
-```powershell
+# Release 실행하기
+
 # 저장소 클론
 git clone [https://github.com/Cobluesky/Image-Grid-Viewer.git](https://github.com/Cobluesky/Image-Grid-Viewer.git)
 cd Image-Grid-Viewer
 
 # 의존성 패키지 설치 (Editable 모드)
 python -m pip install -e .
-```
 
 ### 실행 방법
-```powershell
 python -m app.main
-```
 
 ### 실행 파일(EXE) 빌드
 포함된 PowerShell 스크립트를 사용하여 간편하게 빌드할 수 있습니다.
-```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 .\build_exe.ps1
-```
 
 ---
 
 ## 📂 프로젝트 구조 (Project Structure)
-```text
 app/
   ├── core/      # 격자 계산 및 좌표 변환 로직
   ├── models/    # AppState 및 이미지 메타데이터 관리
   └── ui/        # 메인 윈도우, 캔버스, 확대 패널 UI
 pyproject.toml   # 프로젝트 설정 및 의존성
 build_exe.ps1    # 빌드 자동화 스크립트
-```
 
 ---
 
 ## 💡 전역 그리드 시스템 예시
 ROI가 2개로 분할되어 있어도, 번호는 전체 이미지 기준의 `Cols` 설정을 따라 순차적으로 부여됩니다.
 
-```text
 1  2  3 | 4  5  6
 7  8  9 | 10 11 12
-```
 
 ---
 
@@ -96,6 +87,99 @@ ROI가 2개로 분할되어 있어도, 번호는 전체 이미지 기준의 `Col
 
 ## 👤 제작자 (Contact)
 **신하늘 (Shin Ha-neul)**
+- 📧 Email: habuhamo900@gmail.com
+- 🔗 GitHub: [@Cobluesky](https://github.com/Cobluesky)
+
+---
+
+# 🖼️ Image Grid Viewer
+
+![header](https://capsule-render.vercel.app/render?type=wave&color=auto&height=200&section=header&text=Image%20Grid%20Viewer&fontSize=70)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/PySide6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white" />
+  <img src="https://img.shields.io/badge/Pillow-10.0+-90422d?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
+</p>
+
+## 📝 Project Overview
+**Image-Grid-Viewer** is a desktop application designed to open high-resolution images and precisely navigate or extract specific cells based on a **Global Grid** system. It supports up to two Regions of Interest (ROI) for continuous labeling and individual cell exporting.
+
+---
+
+## ✨ Key Features
+
+### 1. Global Grid & Navigation
+- **Global Coordinate System**: Utilizes a synchronized `Cols` and `Rows` system where cell indexing remains continuous even across separated ROIs.
+- **Precise Selection**: Supports selecting single cells via mouse clicks or by directly entering `Cell X, Y` coordinates.
+- **Interactive Canvas**: Provides smooth zooming via the mouse wheel and free panning by dragging with the middle mouse button.
+
+### 2. Region Selection (ROI & Crop)
+- **ROI Configuration**: Set up to two interest regions by clicking two points or entering numerical coordinates (L/T/R/B).
+- **Accurate Cropping**: Precise area extraction using a two-point coordinate system rather than simple freehand dragging.
+
+### 3. Visualization & Export
+- **Customizable Labels**: Real-time adjustment of grid label visibility, font scale (50% to 300%), and color.
+- **Zoom View & Save**: View selected cells in a dedicated panel with up to 800% magnification and export them instantly as image files (PNG, JPG, BMP).
+
+---
+
+## 🛠 Tech Stack
+
+- **Language**: Python 3.11+
+- **GUI Framework**: PySide6 (Qt for Python)
+- **Image Processing**: Pillow
+- **Executable Build**: PyInstaller
+
+---
+
+## 🚀 Getting Started
+
+### Installation
+# Clone the repository
+git clone [https://github.com/Cobluesky/Image-Grid-Viewer.git](https://github.com/Cobluesky/Image-Grid-Viewer.git)
+cd Image-Grid-Viewer
+
+# Install dependencies in editable mode
+python -m pip install -e .
+
+### Running the App
+python -m app.main
+
+### Building Executable (EXE)
+You can easily build the project using the included PowerShell script:
+
+Set-ExecutionPolicy -Scope Process Bypass
+.\build_exe.ps1
+
+---
+
+## 📂 Project Structure
+app/
+  ├── core/      # Grid calculation and coordinate transformation logic
+  ├── models/    # AppState and image metadata management
+  └── ui/        # Main window, canvas, and zoom panel UI
+pyproject.toml   # Project configuration and dependencies
+build_exe.ps1    # Build automation script
+
+---
+
+## 💡 Global Grid System Example
+Even if the ROI is split into two sections, the numbering follows the global `Cols` setting to ensure sequential indexing across the entire image.
+
+1  2  3 | 4  5  6
+7  8  9 | 10 11 12
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License**.
+
+---
+
+## 👤 Author (Contact)
+**Shin Ha-neul**
 - 📧 Email: habuhamo900@gmail.com
 - 🔗 GitHub: [@Cobluesky](https://github.com/Cobluesky)
 ```
