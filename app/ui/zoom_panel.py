@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections.abc import Callable
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QWheelEvent
 from PySide6.QtWidgets import (
@@ -51,6 +52,7 @@ class ZoomPanel(QFrame):
         layout.addWidget(self._zoom_slider)
 
         self._pixmap: QPixmap | None = None
+        self._save_handler: Callable[[str, str], bool] | None = None
         self._zoom_percent = 200
         self._zoom_slider.setValue(200)
         self._zoom_input.setValue(200)
@@ -58,8 +60,18 @@ class ZoomPanel(QFrame):
         self._zoom_slider.valueChanged.connect(self.set_zoom_percent)
         self._zoom_input.valueChanged.connect(self.set_zoom_percent)
 
+    def set_zoom_content(
+        self,
+        pixmap: QPixmap | None,
+        save_handler: Callable[[str, str], bool] | None,
+    ) -> None:
+        self._pixmap = pixmap
+        self._save_handler = save_handler
+        self._refresh()
+
     def set_zoom_pixmap(self, pixmap: QPixmap | None) -> None:
         self._pixmap = pixmap
+        self._save_handler = None
         self._refresh()
 
     def set_zoom_percent(self, value: int) -> None:
@@ -107,4 +119,7 @@ class ZoomPanel(QFrame):
             file_format = "JPG"
         elif "Bitmap" in selected_filter:
             file_format = "BMP"
+        if self._save_handler is not None:
+            self._save_handler(path, file_format)
+            return
         self._pixmap.save(path, file_format)

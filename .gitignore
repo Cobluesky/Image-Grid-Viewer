@@ -1,4 +1,4 @@
-__pycache__/
+﻿__pycache__/
 *.pyc
 build/
 dist/
@@ -7,4 +7,10 @@ cache/
 .chrome-profile/
 .edge-profile/
 *.egg-info/
+*.spec
 *.spec.bak
+tile_test_image.png
+codex_tile_*.png
+/[0-9a-z_][0-9a-z_][0-9a-z_][0-9a-z_][0-9a-z_][0-9a-z_][0-9a-z_][0-9a-z_]
+generate_resume_pdf*.py
+resume_shin_haneul.*

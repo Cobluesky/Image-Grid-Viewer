@@ -1,16 +1,16 @@
 from __future__ import annotations
 from pathlib import Path
-from PIL import Image
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QImage, QPixmap
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QColorDialog, QFileDialog, QFormLayout, QFrame, QHBoxLayout, QLabel,
     QMainWindow, QMessageBox, QPushButton, QScrollArea, QSpinBox, QVBoxLayout, QWidget, QGroupBox, QCheckBox
 )
 from app.core.grid import MAX_COLUMNS, MAX_ROWS, GridConfig, allocate_columns_by_width, compute_label, global_x_to_local_x
 from app.core.image_region import PixelBounds, compute_cell_bounds, compute_cell_bounds_within_bounds
+from app.core.tiled_image import TiledImageSource
 from app.models.state import AppState
-from app.ui.image_canvas import ImageCanvas
+from app.ui.tiled_image_canvas import TiledImageCanvas
 from app.ui.zoom_panel import ZoomPanel
 
 DARK_STYLE = """
@@ -74,8 +74,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.state = AppState()
-        self._image: Image.Image | None = None
-        self._image_pixmap: QPixmap | None = None
+        self._image_source: TiledImageSource | None = None
         self.setWindowTitle("Image Grid Viewer")
         self.resize(1300, 900)
         self.setStyleSheet(DARK_STYLE)
@@ -86,7 +85,7 @@ class MainWindow(QMainWindow):
         root.setContentsMargins(15, 15, 15, 15)
         root.setSpacing(15)
 
-        self.canvas = ImageCanvas()
+        self.canvas = TiledImageCanvas()
         root.addWidget(self.canvas, stretch=4)
 
         # Sidebar setup
@@ -255,12 +254,11 @@ class MainWindow(QMainWindow):
         path, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Images (*.png *.jpg *.jpeg *.bmp *.webp)")
         if not path: return
         try:
-            img = Image.open(path).convert("RGBA")
-            self._image = img
-            self._image_pixmap = self._pil_to_pixmap(img)
-            self.state.image.width, self.state.image.height = img.size
+            self._image_source = TiledImageSource(Path(path))
+            self.state.image.width = self._image_source.width
+            self.state.image.height = self._image_source.height
             self.state.image.path = Path(path)
-            self.canvas.set_image(self._image_pixmap)
+            self.canvas.set_image_source(self._image_source)
             self._clear_rois()
             self._update_roi_input_ranges()
             self._sync_roi_inputs()
@@ -301,7 +299,7 @@ class MainWindow(QMainWindow):
         self._refresh_summary()
 
     def _apply_selection_from_inputs(self) -> None:
-        if not self._image:
+        if not self._image_source:
             return
         self.state.selected_cell = self.state.selected_cell.__class__(
             x=self.cell_x_input.value(),
@@ -402,11 +400,11 @@ class MainWindow(QMainWindow):
 
     def _apply_crop(self) -> None:
         b = self.canvas.get_crop_bounds()
-        if b and self._image:
-            self._image = self._image.crop((b.left, b.top, b.right, b.bottom))
-            self._image_pixmap = self._pil_to_pixmap(self._image)
-            self.state.image.width, self.state.image.height = self._image.size
-            self.canvas.set_image(self._image_pixmap)
+        if b and self._image_source:
+            self._image_source.apply_crop(b)
+            self.state.image.width = self._image_source.width
+            self.state.image.height = self._image_source.height
+            self.canvas.set_image_source(self._image_source)
             self.crop_mode_button.setChecked(False)
             self.apply_crop_button.setEnabled(False)
             self.cancel_crop_button.setEnabled(False)
@@ -422,8 +420,11 @@ class MainWindow(QMainWindow):
             self.crop_mode_button.setChecked(False)
 
     def _refresh_summary(self) -> None:
-        if not self._image: return
-        self.image_info.setText(f"Size: {self._image.width}x{self._image.height}\nPath: {self.state.image.path.name}")
+        if not self._image_source:
+            return
+        self.image_info.setText(
+            f"Size: {self.state.image.width}x{self.state.image.height}\nPath: {self.state.image.path.name}"
+        )
 
         if self.state.selection_active:
             if self.state.selected_roi_index and self.state.rois[self.state.selected_roi_index - 1].bounds:
@@ -455,11 +456,14 @@ class MainWindow(QMainWindow):
 
             self.label_info.setText(
                 f"Label: {lbl}\nRegion: L{cell_b.left} T{cell_b.top} R{cell_b.right} B{cell_b.bottom}")
-            crop_preview = self._image.crop((cell_b.left, cell_b.top, cell_b.right, cell_b.bottom))
-            self.zoom_panel.set_zoom_pixmap(self._pil_to_pixmap(crop_preview))
+            crop_preview = self._image_source.extract_region_preview(cell_b)
+            self.zoom_panel.set_zoom_content(
+                crop_preview,
+                lambda path, file_format, bounds=cell_b: self._image_source.save_region(bounds, path, file_format),
+            )
         else:
             self.label_info.setText("Label: -")
-            self.zoom_panel.set_zoom_pixmap(None)
+            self.zoom_panel.set_zoom_content(None, None)
 
     def _update_roi_input_ranges(self) -> None:
         width = max(0, self.state.image.width)
@@ -481,7 +485,7 @@ class MainWindow(QMainWindow):
                 widget.blockSignals(False)
 
     def _apply_roi_from_inputs(self, roi_index: int) -> None:
-        if not self._image:
+        if not self._image_source:
             return
 
         roi_inputs = self.roi1_coords if roi_index == 1 else self.roi2_coords
@@ -507,10 +511,3 @@ class MainWindow(QMainWindow):
         self.roi2_button.setChecked(False)
         self._sync_roi_inputs()
         self._refresh_summary()
-
-    @staticmethod
-    def _pil_to_pixmap(img: Image.Image) -> QPixmap:
-        rgba = img.convert("RGBA")
-        qimg = QImage(rgba.tobytes("raw", "RGBA"), rgba.width, rgba.height, rgba.width * 4,
-                      QImage.Format.Format_RGBA8888).copy()
-        return QPixmap.fromImage(qimg)

@@ -18,13 +18,14 @@
 </p>
 
 ### 📝 Project Overview
-**Image-Grid-Viewer** is a desktop application designed to open high-resolution images and precisely navigate or extract specific cells based on a **Global Grid** system. It supports up to two Regions of Interest (ROI) for continuous labeling and individual cell exporting.
+**Image-Grid-Viewer** is a desktop application designed to open high-resolution images and precisely navigate or extract specific cells based on a **Global Grid** system. It supports up to two Regions of Interest (ROI) for continuous labeling and individual cell exporting, and now uses partial loading for large images instead of keeping the full original in a single GUI bitmap.
 
 ### ✨ Key Features
 #### 1. Global Grid & Navigation
 - **Global Coordinate System**: Utilizes a synchronized `Cols` and `Rows` system where cell indexing remains continuous even across separated ROIs.
 - **Precise Selection**: Supports selecting single cells via mouse clicks or by directly entering `Cell X, Y` coordinates.
 - **Interactive Canvas**: Provides smooth zooming via the mouse wheel and free panning by dragging with the middle mouse button.
+- **Large Image Mode**: Uses viewport-based partial rendering so very large source images can be opened more safely than the old full-frame loading approach.
 
 #### 2. Region Selection (ROI & Crop)
 - **ROI Configuration**: Set up to two interest regions by clicking two points or entering numerical coordinates (L/T/R/B).
@@ -93,13 +94,14 @@ This project is licensed under the **MIT License**.
 </p>
 
 ### 📝 프로젝트 개요
-**Image-Grid-Viewer**는 고해상도 이미지를 열고, 전역 그리드(Global Grid) 시스템을 기반으로 특정 셀을 정밀하게 탐색하거나 추출할 수 있도록 설계된 데스크톱 애플리케이션입니다. 최대 2개의 ROI(Region of Interest)를 지정하여 관심 영역의 연속적인 라벨링과 개별 셀 저장을 지원합니다.
+**Image-Grid-Viewer**는 고해상도 이미지를 열고, 전역 그리드(Global Grid) 시스템을 기반으로 특정 셀을 정밀하게 탐색하거나 추출할 수 있도록 설계된 데스크톱 애플리케이션입니다. 최대 2개의 ROI(Region of Interest)를 지정하여 관심 영역의 연속적인 라벨링과 개별 셀 저장을 지원하며, 대용량 이미지에서는 전체 원본을 한 번에 GUI 메모리에 올리지 않고 부분 렌더링 방식으로 동작합니다.
 
 ### ✨ 핵심 기능 (Key Features)
 #### 1. 전역 그리드 및 탐색
 - **전역 좌표계**: ROI가 나뉘어 있어도 번호가 끊기지 않고 이어지는 전역 `Cols`, `Rows` 시스템을 사용합니다.
 - **정밀 선택**: 마우스 클릭 또는 `Cell X, Y` 좌표 직접 입력을 통한 단일 셀 선택 기능을 제공합니다.
 - **스마트 캔버스**: 마우스 휠을 이용한 확대/축소와 휠 클릭 드래그를 통한 자유로운 패닝을 지원합니다.
+- **대용량 이미지 대응**: 현재 보이는 영역만 부분 렌더링하는 방식으로 기존 전체 적재 방식보다 큰 이미지를 더 안정적으로 처리합니다.
 
 #### 2. 영역 지정 (ROI & Crop)
 - **ROI 설정**: 두 점 클릭 또는 좌표 수치(L/T/R/B) 입력을 통해 최대 2개의 관심 영역을 설정할 수 있습니다.
