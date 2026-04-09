@@ -11,7 +11,7 @@
 ![header](https://capsule-render.vercel.app/render?type=wave&color=auto&height=200&section=header&text=Image%20Grid%20Viewer&fontSize=70)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/PySide6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white" />
   <img src="https://img.shields.io/badge/Pillow-10.0+-90422d?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
@@ -36,7 +36,7 @@
 - **Zoom View & Save**: View selected cells in a dedicated panel with up to 800% magnification and export them instantly as image files (PNG, JPG, BMP).
 
 ### 🛠 Tech Stack
-- **Language**: Python 3.11+
+- **Language**: Python 3.10+
 - **GUI Framework**: PySide6 (Qt for Python)
 - **Image Processing**: Pillow
 - **Executable Build**: PyInstaller
@@ -48,7 +48,12 @@
 git clone [https://github.com/Cobluesky/Image-Grid-Viewer.git](https://github.com/Cobluesky/Image-Grid-Viewer.git)
 cd Image-Grid-Viewer
 
-# Install dependencies in editable mode
+# Create and activate a virtual environment
+py -3.10 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Install dependencies
+python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
@@ -63,6 +68,12 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\build_exe.ps1
 ```
 
+#### Building Executable (One Directory)
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\build_onedir.ps1
+```
+
 ### 📂 Project Structure
 ```text
 app/
@@ -70,7 +81,9 @@ app/
   ├── models/    # AppState and image metadata management
   └── ui/        # Main window, canvas, and zoom panel UI
 pyproject.toml   # Project configuration and dependencies
-build_exe.ps1    # Build automation script
+build_exe.ps1    # One-file build script
+build_onedir.ps1 # One-directory build script
+pyinstaller_runtime_env.py # Runtime hook that isolates bundled Qt from conda paths
 ```
 
 ### 📄 License
@@ -89,7 +102,7 @@ This project is licensed under the **MIT License**.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Language-Korean-blue?style=for-the-badge&logo=language" />
-  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/PySide6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white" />
 </p>
 
@@ -112,7 +125,7 @@ This project is licensed under the **MIT License**.
 - **확대 뷰 및 저장**: 선택된 셀은 우측 하단 패널에서 최대 800%까지 확대 확인이 가능하며, 개별 이미지 파일(PNG, JPG, BMP)로 즉시 저장할 수 있습니다.
 
 ### 🛠 기술 스택 (Tech Stack)
-- **언어**: Python 3.11+
+- **언어**: Python 3.10+
 - **GUI 프레임워크**: PySide6 (Qt for Python)
 - **이미지 처리**: Pillow
 - **배포 빌드**: PyInstaller
@@ -124,7 +137,12 @@ This project is licensed under the **MIT License**.
 git clone [https://github.com/Cobluesky/Image-Grid-Viewer.git](https://github.com/Cobluesky/Image-Grid-Viewer.git)
 cd Image-Grid-Viewer
 
-# 의존성 패키지 설치 (Editable 모드)
+# 가상환경 생성 및 활성화
+py -3.10 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# 의존성 설치
+python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
@@ -139,6 +157,12 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\build_exe.ps1
 ```
 
+#### 실행 파일(폴더형) 빌드
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\build_onedir.ps1
+```
+
 ### 📂 프로젝트 구조 (Project Structure)
 ```text
 app/
@@ -146,7 +170,9 @@ app/
   ├── models/    # AppState 및 이미지 메타데이터 관리
   └── ui/        # 메인 윈도우, 캔버스, 확대 패널 UI
 pyproject.toml   # 프로젝트 설정 및 의존성
-build_exe.ps1    # 빌드 자동화 스크립트
+build_exe.ps1    # 단일 EXE 빌드 스크립트
+build_onedir.ps1 # 폴더형 빌드 스크립트
+pyinstaller_runtime_env.py # 번들 Qt 경로를 우선 적용하는 런타임 훅
 ```
 
 ### 📄 라이선스 (License)
